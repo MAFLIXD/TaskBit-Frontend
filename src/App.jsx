@@ -28,12 +28,12 @@ export default function App() {
     return tareasLista.reduce((total, tarea) => total + (tarea.duracionHoras || 0), 0);
   };
 
-  //Calcular horas totales de proyectos
+  //Calcular horas totales de proyectos (SOLO horas de tareas, NO horas del proyecto)
   const calcularHorasProyectos = (proyectosLista) => {
     return proyectosLista.reduce((total, proyecto) => {
-      const horasProyecto = proyecto.duracionHoras || 0;
+      // Solo sumar horas de las tareas, NO las horas del proyecto
       const horasTareas = calcularHorasTareas(proyecto.tareas || []);
-      return total + horasProyecto + horasTareas;
+      return total + horasTareas;
     }, 0);
   };
 
@@ -154,9 +154,9 @@ export default function App() {
               ) : (
                 <div className="space-y-3">
                   {proyectos.map((proyecto) => {
-                    const horasProyecto = proyecto.duracionHoras || 0;
+                    // SOLO horas de tareas, NO horas del proyecto
                     const horasTareasProyecto = calcularHorasTareas(proyecto.tareas || []);
-                    const horasTotalesProyecto = horasProyecto + horasTareasProyecto;
+                    const horasTotalesProyecto = horasTareasProyecto; // Solo horas de tareas
 
                     return (
                       <div
@@ -188,8 +188,9 @@ export default function App() {
                           }`}>
                             {proyecto.estado}
                           </span>
+                          {/* Mostrar solo horas de tareas */}
                           <span className={`text-xs ${textSecundario}`}>
-                            {horasProyecto}h proyecto + {horasTareasProyecto}h tareas
+                            {horasTareasProyecto}h tareas
                           </span>
                         </div>
                       </div>
@@ -297,7 +298,7 @@ export default function App() {
                 TaskBit — Bitácora de Tareas
               </h1>
               <p className={`text-sm mt-1${textSecundario}`}>
-                Gestiona proyectos, tareas y visualiza reportes con IA de forma automatica
+                Gestiona proyectos, tareas y visualiza reportes con IA de forma automática
               </p>
             </div>
             <div className="text-right">
